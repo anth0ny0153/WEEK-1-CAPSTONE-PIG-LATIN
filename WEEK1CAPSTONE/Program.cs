@@ -10,22 +10,56 @@ namespace WEEK1CAPSTONE
     {
         static void Main(string[] args)
         {
-            string part1;
-            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
-            Console.WriteLine("Welcome to the Pig Latin Translator!");
-            Console.Write("Please enter a line to be translated: ");
-            string userInput = Console.ReadLine();
-            int index = userInput.ToLower().IndexOfAny(vowels);
-            part1 = userInput.Split(vowels)[0];
+            bool repeat = true;
+            while (repeat)
+            {
+                string part1;
+                char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+                string userInput = GetInput();
+                int index = userInput.ToLower().IndexOfAny(vowels);
+                part1 = userInput.Split(vowels)[0];
 
-            if (index == 0)
-            {
-                Console.WriteLine(userInput + "way");
+                if (index == 0)
+                {
+                    Console.WriteLine(userInput + "way");
+                }
+                else if (index == -1)
+                {
+                    Console.WriteLine("Invalid Input. Please try again.");
+                }
+                else
+                {
+                    userInput = userInput.Replace(userInput.Split(vowels)[0], "");
+                    Console.WriteLine(userInput + part1 + "ay");
+                }
+                repeat = Confirm("Do you want to continue?(y/n): ");
             }
-            else
+        }
+        public static string GetInput()
+        {
+                string userInput;
+                Console.WriteLine("Welcome to the Pig Latin Translator!");
+                Console.Write("Please enter a line to be translated: "); 
+                userInput = Console.ReadLine();
+                return userInput;
+        }
+        public static bool Confirm(string message) //method for yes or no questions
+        {
+            Console.Write(message);
+            string input = Console.ReadLine();
+
+            if (input.ToLower() == "y") //continues program
             {
-                userInput = userInput.Replace(userInput.Split(vowels)[0], "");
-                Console.WriteLine(userInput + part1 + "ay");
+                return true;
+            }
+            else if (input.ToLower() == "n") //closes program
+            {
+                return false;
+            }
+            else //invalid input
+            {
+                Console.WriteLine("Invalid input.");
+                return Confirm(message);
             }
         }
     }
